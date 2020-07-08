@@ -1,6 +1,6 @@
 const chai = require("chai");
 const assert = chai.assert;
-const Urn = require("../Urn");
+const Urn = require("../urn.js");
 
 
 describe("Urn", () => {
