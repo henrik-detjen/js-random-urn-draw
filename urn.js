@@ -1,19 +1,21 @@
+'use strict';
+
 class Urn {
 
-    constructor(content = [], withReplacement = true, weightFunction = null) {
+    constructor(content = [], withReplacement = true) {
         this.content = content;
         this.extractedContent = [];
-        this.WITH_REPLACEMENT = withReplacement;
+        this._withReplacement = withReplacement;
     }
 
-    draw = (n = 1) => {
+    draw(n = 1) {
         let result = [];
         for (let i = 0; i < n; i++) {
-            if (this.content.length === 0) break; // stop if the item pool is empty
-            let rndIndex = Math.floor(Math.random() * this.content.length);
-            let rndItem = this.content[rndIndex];
+            if (this._content.length === 0) break; // stop if the item pool is empty
+            let rndIndex = Math.floor(Math.random() * this._content.length);
+            let rndItem = this._content[rndIndex];
             result.push(rndItem);
-            if (!this.WITH_REPLACEMENT) {
+            if (!this._withReplacement) {
                 // without replacement: return random item from pool and add it to the list of drawn content
                 this.extractedContent.push(rndItem);
                 this.content.splice(rndIndex, 1);
@@ -22,26 +24,26 @@ class Urn {
         return result;
     };
 
-    drawOne = () => {
+    drawOne() {
         let result = this.draw();
         if (result.length > 0) return result[0];
         return null;
     };
 
-    shake = () => {
-        for (let index = this.content.length - 1, rnd_index, tmp; index > 0; index--) {
+    shake() {
+        for (let index = this._content.length - 1, rnd_index, tmp; index > 0; index--) {
             rnd_index = Math.floor(Math.random() * (index + 1));
-            tmp = this.content[index];
-            this.content[index] = this.content[rnd_index];
-            this.content[rnd_index] = tmp;
+            tmp = this._content[index];
+            this._content[index] = this._content[rnd_index];
+            this._content[rnd_index] = tmp;
         }
-        return this.content;
+        return this._content;
     };
 
-    restore = () => {
-        if (!this.WITH_REPLACEMENT) {
-            this.content = this.content.concat(this.extractedContent);
-            this.extractedContent = [];
+    restore() {
+        if (!this.this._withReplacement) {
+            this._content = this._content.concat(this._extractedContent);
+            this._extractedContent = [];
         }
     };
 
@@ -70,7 +72,7 @@ class Urn {
     }
 
     get withReplacement() {
-        return this.WITH_REPLACEMENT;
+        return this._withReplacement;
     }
 
 }
